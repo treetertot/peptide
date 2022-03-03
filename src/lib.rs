@@ -7,6 +7,6 @@ mod tests {
     }
 }
 
-pub mod slot;
-pub mod group;
 pub mod drawing;
+pub mod group;
+pub mod slot;
