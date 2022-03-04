@@ -1,13 +1,3 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}
-
-pub mod drawing;
 pub mod grid;
-pub mod slot;
+pub mod positioning;
 pub mod wrap;

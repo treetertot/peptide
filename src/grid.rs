@@ -1,7 +1,6 @@
 use std::ops::Range;
 
-use crate::drawing::{ChildPositions, Propagation, RealPosition};
-use crate::slot::{accum_par, accum_seq, Slot};
+use crate::positioning::{accum_par, accum_seq, Slot, Squishy, ChildPositions, Propagation, RealPosition};
 
 #[derive(Debug, Clone)]
 pub struct Grid {
@@ -164,16 +163,4 @@ fn grid_slotting() {
     let mut children = ChildPositions(SmallVec::new());
     grid.split(&mut buffer, &position, &mut children);
     assert_eq!(children.0[0].rect, [0.0, 0.0, 4.0, 5.0]);
-}
-
-pub trait Squishy {
-    fn slotify(&self) -> Slot;
-    fn split(
-        &self,
-        _buffer: &mut Vec<Range<f32>>,
-        _target: &RealPosition,
-        _children: &mut ChildPositions,
-    ) -> Propagation {
-        Propagation::Stop
-    }
 }
