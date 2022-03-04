@@ -11,13 +11,6 @@ pub struct RealPosition {
 /// A structure for passing positions to multiple children
 pub struct ChildPositions(pub SmallVec<[RealPosition; 2]>);
 
-/// A signal to emit to reconfigure a branch
-pub struct Reconfigure;
-
-pub trait Parent {
-    fn split(&self, target: &RealPosition, children: &mut ChildPositions) -> Propagation;
-}
-
 pub enum Propagation {
     Continue,
     Stop,

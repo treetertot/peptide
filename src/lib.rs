@@ -8,5 +8,6 @@ mod tests {
 }
 
 pub mod drawing;
-pub mod group;
+pub mod grid;
 pub mod slot;
+pub mod wrap;
