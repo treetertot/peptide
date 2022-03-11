@@ -1,5 +1,5 @@
-use std::ops::Range;
 use smallvec::SmallVec;
+use std::ops::Range;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Slot {
@@ -13,6 +13,13 @@ pub struct RealPosition {
     /// [start x. start y. end x, end y]
     pub rect: [f32; 4],
 }
+impl RealPosition {
+    #[inline(always)]
+    pub fn size(&self, axis: usize) -> f32 {
+        let end = axis + 2;
+        self.rect[end] - self.rect[axis]
+    }
+}
 
 #[derive(Debug, Clone)]
 /// A structure for passing positions to multiple children
@@ -24,15 +31,25 @@ pub enum Propagation {
 }
 
 pub trait Squishy {
-    fn slotify(&self) -> Slot;
+    fn slotify(&self, slots: &[Slot], offset: [f32; 2]) -> Slot;
     fn split(
         &self,
-        _buffer: &mut Vec<Range<f32>>,
+        _slots: &[Slot],
+        _offset: [f32; 2],
         _target: &RealPosition,
         _children: &mut ChildPositions,
     ) -> Propagation {
         Propagation::Stop
     }
+}
+
+pub fn reverse_lerp(x: f32, range: Range<f32>) -> f32 {
+    let diff = f32::EPSILON.max(range.end - range.start);
+    (x - range.start) / diff
+}
+
+pub fn lerp(x: f32, range: Range<f32>) -> f32 {
+    x * range.end + (1. - x) * range.start
 }
 
 pub fn accum_seq<I: Iterator<Item = Range<f32>>>(iter: I) -> Range<f32> {
